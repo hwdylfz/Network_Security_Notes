@@ -1,0 +1,33 @@
+
+提取基本信息
+１．首先对于pubkey.pem，我们可以使用openssl命令提取信息。
+　　openssl rsa -pubin -in public.pem  -text -modulus
+　　ps：只要文件名合法就能提取相关信息。
+２．对于private.pem,我们也可以使用openssl命令。
+　　openssl rsa -in (文件名) -text 
+
+
+加解密
+1）公钥加密
+
+openssl rsautl -encrypt -in test -out test.enc -inkey asn1pub.pem -pubin
+
+ 2）私钥解密
+
+openssl rsautl -decrypt -in test.enc -out test.dec -inkey asn1enc.pem
+或
+openssl rsautl -decrypt -inkey pri.key(私钥文件) -in enc1(密文文件) -out txt(明文文件)（推荐）
+
+比较test和test.dec两个文件结果相同。
+
+
+签名验证
+1）私钥签名
+
+openssl rsautl -sign -in test -out test.sig-inkey asn1enc.pem
+
+2）公钥验证
+
+openssl rsautl -verify -in test.sig -out test.vfy -inkey asn1pub.pem -pubin
+
+

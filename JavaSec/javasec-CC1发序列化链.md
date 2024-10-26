@@ -1,19 +1,3 @@
----
-title: javasec-CC1反序列化链
-tags:
-  - javasec
-  - 反序列化
-categories:
-  - javasec
-cover: https://blog-1313934826.cos.ap-chengdu.myqcloud.com/blog-images/3.png
-feature: false
-date: 2023-05-23 19:44:08
----
-
-这篇文章介绍java反序列化中的CC1利用链。
-
-<!--More-->
-
 上篇文章学习了URLDNS这条链，主要是HashMap和URL这两个类，接下来学习Common-Collections利⽤链，此篇文章记录学习CC1的学习过程。
 
 ## 简介
@@ -31,9 +15,9 @@ CC1的测试环境需要在Java 8u71以前。在此改动后，AnnotationInvocat
 JDK8u65:[https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html](https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html) （8u71以下）
 下载sun的源码：[http://hg.openjdk.java.net/jdk8u/jdk8u/jdk/rev/41ab7149fea2](http://hg.openjdk.java.net/jdk8u/jdk8u/jdk/rev/41ab7149fea2)
 创建一个普通的maven项目，之后解压JDK 目录下的SRC文件，把下载的sun文件（/src/share/classes/sun）解压放到SRC文件下
-![image-20230523194818082](https://blog-1313934826.cos.ap-chengdu.myqcloud.com/blog-images/202305231948159.png)
+![image-20230523194818082](assets/202305231948159.png)
 配置IDEA File->Project Structure->SDKs->Sourcepath 加入src文件夹
-![image-20230523194805794](https://blog-1313934826.cos.ap-chengdu.myqcloud.com/blog-images/202305231948844.png)
+![image-20230523194805794](assets/202305231948844.png)
 pom文件加入commons-collections依赖 版本3.2.1
 
 ```xml
@@ -121,7 +105,7 @@ public Object transform(Object input) {
    new InvokerTransformer("exec",new Class[]{String.class},new Object[]{"calc.exe"}).transform(r);
 ```
 
-![image-20230523194746604](https://blog-1313934826.cos.ap-chengdu.myqcloud.com/blog-images/202305231947774.png)
+![image-20230523194746604](assets/202305231947774.png)
 直接弹出计算器。只是这个只能在本地执行。要想远程调用的话，就得使构造函数中的几个参数和transform中的参数都是用户可控的才行。
 
 ### ConstantTransformer
@@ -163,7 +147,7 @@ public ChainedTransformer(Transformer[] transformers) {
 
 寻找链的思路：InvokerTransformer.transform()是执行命令的关键，找的思路就是找哪里调用了transform，对应的方法又在哪被调用，最后直至找到readObject里调用的方法。
 AnnotationInvocationHandler.readObject()->TransformedMap.checkSetValue()->ChainedTransformer->InvokerTransformer->Runtime.exec
-![image-20230523194733549](https://blog-1313934826.cos.ap-chengdu.myqcloud.com/blog-images/202305231947641.png)
+![image-20230523194733549](assets/202305231947641.png)
 
 ### TransformedMap
 
@@ -463,7 +447,7 @@ public class test {
     }}
 ```
 
-![image-20230523194552097](https://blog-1313934826.cos.ap-chengdu.myqcloud.com/blog-images/202305231947089.png)
+![image-20230523194552097](assets/202305231947089.png)
 
 ### 小结
 
@@ -482,9 +466,9 @@ HashMap
 ```
 
 这里非常建议大家在跟完一整个链子之后，写一个流程图，让自己明确一下思路，这个流程图一定是要自己写。
-![](https://blog-1313934826.cos.ap-chengdu.myqcloud.com/blog-images/1666866372257-2eee9db8-7ade-44b3-885c-55620ebc58f3.jpeg)
+![](assets/1666866372257-2eee9db8-7ade-44b3-885c-55620ebc58f3.jpeg)
 别的师傅的流程图
-![](https://blog-1313934826.cos.ap-chengdu.myqcloud.com/blog-images/1667215040297-ddc72c67-ef4e-4fd6-917b-37ca36f468aa.jpeg)
+![](assets/1667215040297-ddc72c67-ef4e-4fd6-917b-37ca36f468aa.jpeg)
 
 ## 第二条链
 
@@ -661,7 +645,7 @@ public class CC1_LazyMapEXP implements Serializable {
 }
 ```
 
-![图片.png](https://blog-1313934826.cos.ap-chengdu.myqcloud.com/blog-images/1684817437199-bd309a0d-e65d-447e-bb44-0c3a55e6d297.png)
+![图片.png](assets/1684817437199-bd309a0d-e65d-447e-bb44-0c3a55e6d297.png)
 
 ### 小结
 
@@ -681,9 +665,9 @@ HashMap
 Map(Proxy)#entrySet
 ```
 
-![](https://blog-1313934826.cos.ap-chengdu.myqcloud.com/blog-images/1667299650951-c3ec29ef-7f7c-4d33-b777-64e39851b31f.jpeg)
+![](assets/1667299650951-c3ec29ef-7f7c-4d33-b777-64e39851b31f.jpeg)
 
-![](https://blog-1313934826.cos.ap-chengdu.myqcloud.com/blog-images/1667300836342-a1d9b36c-9624-4ad9-a651-5f7de0e4d75b.jpeg)
+![](assets/1667300836342-a1d9b36c-9624-4ad9-a651-5f7de0e4d75b.jpeg)
 
 ## Refer
 

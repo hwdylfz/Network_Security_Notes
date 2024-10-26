@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+    id 'idea'
+}
+
+group 'dev.ww23.image'
+version 'v0.0.3'
+
+repositories {
+    maven{url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+//    mavenCentral()
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'dev.ww23.image.BlindWatermark'
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+dependencies {
+    //all platforms
+    compile 'org.bytedeco:opencv-platform:4.1.2-1.5.2'
+//    compile 'org.bytedeco:opencv:4.1.2-1.5.2'
+//    compile 'org.bytedeco:opencv:4.1.2-1.5.2:android-arm'
+//    compile 'org.bytedeco:opencv:4.1.2-1.5.2:android-arm64'
+//    compile 'org.bytedeco:opencv:4.1.2-1.5.2:android-x86'
+//    compile 'org.bytedeco:opencv:4.1.2-1.5.2:android-x86_64'
+//    compile 'org.bytedeco:opencv:4.1.2-1.5.2:ios-arm64'
+//    compile 'org.bytedeco:opencv:4.1.2-1.5.2:ios-x86_64'
+//    compile 'org.bytedeco:opencv:4.1.2-1.5.2:linux-armhf'
+//    compile 'org.bytedeco:opencv:4.1.2-1.5.2:linux-ppc64le'
+//    compile 'org.bytedeco:opencv:4.1.2-1.5.2:linux-x86'
+//    compile 'org.bytedeco:opencv:4.1.2-1.5.2:linux-x86_64-gpu'
+//    compile 'org.bytedeco:opencv:4.1.2-1.5.2:linux-x86_64'
+//    compile 'org.bytedeco:opencv:4.1.2-1.5.2:macosx-x86_64-gpu'
+//    compile 'org.bytedeco:opencv:4.1.2-1.5.2:macosx-x86_64'
+//    compile 'org.bytedeco:opencv:4.1.2-1.5.2:windows-x86'
+//    compile 'org.bytedeco:opencv:4.1.2-1.5.2:windows-x86_64-gpu'
+//    compile 'org.bytedeco:opencv:4.1.2-1.5.2:windows-x86_64'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.4.0'
+}
