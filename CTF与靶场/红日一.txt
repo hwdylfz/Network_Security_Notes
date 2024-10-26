@@ -1,0 +1,15 @@
+靶机目标：172.25.0.15
+Nmap scan report for 172.25.0.15
+Host is up (0.074s latency).
+Not shown: 990 closed tcp ports (reset)
+PORT     STATE SERVICE
+80/tcp   open  http
+135/tcp  open  msrpc
+139/tcp  open  netbios-ssn
+445/tcp  open  microsoft-ds
+1025/tcp open  NFS-or-IIS
+1026/tcp open  LSA-or-nterm
+1027/tcp open  IIS
+1028/tcp open  unknown
+1029/tcp open  ms-lsa
+3306/tcp open  mysql
